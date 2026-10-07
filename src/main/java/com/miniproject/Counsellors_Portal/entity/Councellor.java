@@ -1,16 +1,28 @@
 package com.miniproject.Counsellors_Portal.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
 public class Councellor {
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer counsellorId;
     private String councellorName;
     private String pwd;
     private String phoneNo;
-    private String emailId;
+    @Column(unique = true)
+    private String email;
+    @CreationTimestamp
+    private LocalDate createdDate;
+    @UpdateTimestamp
+    private LocalDate updatedDate;
+
+
 }
