@@ -20,6 +20,7 @@ public class Councellor {
     @Column(unique = true)
     private String email;
     @CreationTimestamp
+    @Column(updatable = false)
     private LocalDate createdDate;
     @UpdateTimestamp
     private LocalDate updatedDate;
