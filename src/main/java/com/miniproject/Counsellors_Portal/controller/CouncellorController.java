@@ -42,13 +42,21 @@ public class CouncellorController {
         if (c == null) {
             model.addAttribute("emsg", "Invalid Credentials");
             return "index";
+        }else {
+            HttpSession session = request.getSession(true);
+            session.setAttribute("counsellorId", c.getCounsellorId());
+            return "redirect:/dashboard";
         }
-
-        HttpSession session = request.getSession(true);
-        session.setAttribute("counsellorId", c.getCounsellorId());
-
-        DashBoardResponse dashBoardResponse = counsellorService.getDashInfo(c.getCounsellorId());
-        model.addAttribute("dashBoardInfo", dashBoardResponse);
+    }
+    @GetMapping("/dashboard")
+    public String displayDashboard(HttpServletRequest request ,Model model){
+        HttpSession session=request.getSession(false);
+        if (session == null || session.getAttribute("counsellorId") == null) {
+            return "redirect:/";   // not logged in
+        }
+        Integer counsellorId = (Integer) session.getAttribute("counsellorId");
+        DashBoardResponse dashBoardResponse = counsellorService.getDashInfo(counsellorId);
+        model.addAttribute("dashBoardInfo",dashBoardResponse);
         return "dashboard";
     }
 
